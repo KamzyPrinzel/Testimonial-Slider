@@ -1,24 +1,23 @@
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
-
 scrape_configs:
-  # Monitor Prometheus itself
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['localhost:9090']
-
-  # Monitor Docker engine
+  # Monitor Docker container metrics (CPU/Memory/Network)
   - job_name: 'docker'
     static_configs:
-      - targets: ['192.168.43.7:9323'] # Replace with your host IP
-        labels:
-          service: 'docker'
+      - targets: ['localhost:9323']  # Docker's built-in metrics endpoint
+    labels:
+      service: 'static-site-container'
 
-  # Monitor your testimonial app container
-  - job_name: 'testimonial-app'
-    metrics_path: '/metrics' # Only if you add metrics endpoint
+  # Monitor site uptime (Blackbox Exporter)
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]  # Checks if HTTP 200 OK
     static_configs:
-      - targets: ['192.168.43.7:8080'] # Your app's exposed port
-        labels:
-          service: 'testimonial'
+      - targets:
+          - http://localhost:8888  # Your container's exposed port
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115  # Blackbox exporter running on host
