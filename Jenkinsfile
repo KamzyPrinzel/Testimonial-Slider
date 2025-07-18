@@ -5,7 +5,7 @@ pipeline {
         IMAGE_NAME = 'prinzkay/testimonial-slider'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         CONTAINER_NAME = 'testimonial'
-        PORT_TO_TRY = ['8088', '8888', '1234']
+        PORT = '8888'
 
     }
 
