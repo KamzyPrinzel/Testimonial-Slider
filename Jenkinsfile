@@ -5,7 +5,8 @@ pipeline {
         IMAGE_NAME = 'prinzkay/testimonial-slider'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         CONTAINER_NAME = 'testimonial'
-        PORT = '8080'
+        PORT = '80'
+
     }
 
     stages {
