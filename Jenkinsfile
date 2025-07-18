@@ -74,11 +74,11 @@ pipeline {
         }
         success {
             echo 'Pipeline succeeded!'
-            // Add notification here (email, Slack, etc.)
+            
         }
         failure {
             echo 'Pipeline failed!'
-            // Add failure notification
+            
         }
     }
 }
