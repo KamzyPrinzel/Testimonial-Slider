@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools{
+        docker 'docker'
+    }
+
     environment {
         IMAGE_NAME = 'prinzkay/testimonial-slider'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
