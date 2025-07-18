@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Monitor Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Monitor Docker engine
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['192.168.43.7:9323'] # Replace with your host IP
+        labels:
+          service: 'docker'
+
+  # Monitor your testimonial app container
+  - job_name: 'testimonial-app'
+    metrics_path: '/metrics' # Only if you add metrics endpoint
+    static_configs:
+      - targets: ['192.168.43.7:8080'] # Your app's exposed port
+        labels:
+          service: 'testimonial'
